@@ -1,29 +1,47 @@
 # Put your environment variables here
 
 # Personal information
-#export NAME='Bob McBob'
-#export EMAIL='bob@example.com'
+export NAME='Nigel Banks'
+export EMAIL='nigel.g.banks@gmail.com'
 
 # Preferred programs
-#export PAGER=less
-#export EDITOR=vim
-#export VISUAL=$EDITOR
+export PAGER=less
+if which emacs >/dev/null 2>&1; then
+   export EDITOR=emacs
+fi
+else
+   export EDITOR=vim
+fi
+export VISUAL=$EDITOR
 
 # Language
-#export LANG='en_AU.UTF-8'
-#export LC_ALL=$LANG
-#export LC_COLLATE=$LANG
-#export LC_CTYPE=$LANG
-#export LC_MESSAGES=$LANG
-#export LC_MONETARY=$LANG
-#export LC_NUMERIC=$LANG
-#export LC_TIME=$LANG
+export LANG='en_CA.UTF-8'
+export LC_ALL=$LANG
+export LC_COLLATE=$LANG
+export LC_CTYPE=$LANG
+export LC_MESSAGES=$LANG
+export LC_MONETARY=$LANG
+export LC_NUMERIC=$LANG
+export LC_TIME=$LANG
+
+# Less
+# export LESS='-F -g -i -M -R -S -w -X -z-4'
+export LESS='FRXQ'
+export LESSCHARSET='UTF-8'
+export LESSHISTFILE='-'
+export LESSEDIT="$EDITOR ?lm+%lm. %f"
+
+if which lesspipe >/dev/null 2>&1; then
+    eval "$(lesspipe)"
+elif which lesspipe.sh >/dev/null 2>&1; then
+    export LESSOPEN="|lesspipe.sh %s"
+fi
 
 # Path settings
-#pathprepend ~/bin PATH
-#pathprepend ~/lib LD_LIBRARY_PATH
-#pathprepend ~/include CPATH
+pathprepend ~/bin PATH
+pathprepend ~/lib LD_LIBRARY_PATH
+pathprepend ~/include CPATH
 
 # The current directory should never be in $PATH
-#pathremove . PATH
-#pathremove "" PATH
+pathremove . PATH
+pathremove "" PATH
