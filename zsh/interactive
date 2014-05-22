@@ -1,1 +1,52 @@
+# Path to your oh-my-zsh installation.
+export ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="nbanks"
+
+# Set the key mapping style to 'emacs' or 'vi'.
+zstyle ':omz:editor' keymap 'emacs'
+
+# Auto convert .... to ../..
+zstyle ':omz:editor' dot-expansion 'no'
+
+# Show completion menu when number of options is at least 2
+zstyle ':completion:*' menu select=2
+
+# Set case-sensitivity for completion, history lookup, etc.
+zstyle ':omz:*:*' case-sensitive 'yes'
+
+# Color output (auto set to 'no' on dumb terminals).
+zstyle ':omz:*:*' color 'yes'
+
+# Auto set the tab and window titles.
+zstyle ':omz:terminal' auto-title 'yes'
+
+# Set the plugins to load (see $OMZ/plugins/).
+zstyle ':omz:load' plugin 'archive' 'git' 'ssh-agent' 'github' 'vagrant' 'rvm'
+
+# Turn on ssh agent forwarding.
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+
+# Set the prompt theme to load.
+# Setting it to 'random' loads a random theme.
+# Auto set to 'off' on dumb terminals.
+# zstyle ':omz:prompt' theme 'flowblok'
+
+# Include scripts in path and autocomplete for them.
+# add a function path
+fpath=($HOME/.zsh/functions $HOME/.zsh/completions $fpath)
+
+# Set our custom oh-my-zsh configuration directory.
+ZSH_CUSTOM=$HOME/.zsh/oh-my-zsh
+
+# Load OH MY ZSH
+ssource $ZSH/oh-my-zsh.sh
+
+# Load aliases
+ssource $HOME/.zsh/alias
+
 . ~/.shell/interactive

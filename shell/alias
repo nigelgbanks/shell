@@ -1,0 +1,48 @@
+# Navigation / Shortcuts for built in or common programs.
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
+alias dt="downto"
+alias ut="upto"
+alias ll="ls -l"
+alias lla="ls -la"
+alias xa="xargs"
+alias t="tail -f"
+alias screen="screen -e^^^"
+# Copy / Paste
+if hash pbcopy 2>/dev/null; then
+    if [[ -n "$SSH_CLIENT" ]]; then
+        alias pbcopy="ssh ${SSH_CLIENT%% *} pbcopy"
+        alias pbpaste="ssh ${SSH_CLIENT%% *} pbpaste"
+    fi
+    alias copy="pbcopy"
+    alias paste="pbpaste"
+fi
+# Git
+if hash git 2>/dev/null; then
+    alias g="git"
+    alias st="g st"
+fi
+# PHP
+if [ -f $HOME/.drush/drush ]; then
+    alias drush="$HOME/.drush/drush"
+    alias codereview="drush coder-review --reviews=production,security,style,i18n,potx,sniffer "
+fi
+if hash php 2>/dev/null; then
+    alias phpl='find . \( -name "*.inc" -o -name "*.php" -o -name "*.module" -o -name "*.install" -o -name "*.test" \) -exec php -l {} \;'
+    if hash phpcs 2>/dev/null; then
+        alias cs='phpcs --standard=/usr/share/php/PHP/CodeSniffer/Standards/Drupal/ruleset.xml --extensions=php,module,inc,install,test,profile,theme'
+        alias csdir='find . \( -name "*.inc" -o -name "*.php" -o -name "*.module" -o -name "*.install" -o -name "*.test" \) -exec cs {} \;'
+    fi
+fi
+# IRC
+if hash irssi 2>/dev/null; then
+    alias irc="irssi"
+fi
+# GHC, assumes platform is installed.
+if hash ghc 2>/dev/null; then
+    alias ghc-sandbox="ghc -no-user-package-db -package-db .cabal-sandbox/*-packages.conf.d"
+    alias ghci-sandbox="ghci -no-user-package-db -package-db .cabal-sandbox/*-packages.conf.d"
+    alias runhaskell-sandbox="runhaskell -no-user-package-db -package-db .cabal-sandbox/*-packages.conf.d"
+fi

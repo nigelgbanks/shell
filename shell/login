@@ -8,7 +8,6 @@ export EMAIL='nigel.g.banks@gmail.com'
 export PAGER=less
 if which emacs >/dev/null 2>&1; then
    export EDITOR=emacs
-fi
 else
    export EDITOR=vim
 fi
@@ -45,3 +44,8 @@ pathprepend ~/include CPATH
 # The current directory should never be in $PATH
 pathremove . PATH
 pathremove "" PATH
+
+# Update the code
+if hash git 2>/dev/null; then
+    cd $HOME/shell && git pull && cd $HOME
+fi
