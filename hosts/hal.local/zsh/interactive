@@ -1,0 +1,5 @@
+# Include scripts in path and autocomplete for them.
+# add a function path
+fpath=(~/shell/hosts/hal.local/zsh/functions ~/shell/hosts/hal.local/zsh/completions $fpath)
+autoload vagrant
+autoload vsphere

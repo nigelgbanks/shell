@@ -49,4 +49,12 @@ ssource $ZSH/oh-my-zsh.sh
 # Load aliases
 ssource $HOME/.zsh/alias
 
-. ~/.shell/interactive
+# Load $HOST specific files
+if [ -d $HOME/shell/hosts/$HOST ]; then
+    ssource $HOME/shell/hosts/$HOST/zsh/alias
+    if [ -f $HOME/shell/hosts/$HOST/zsh/interactive ]; then
+        . $HOME/shell/hosts/$HOST/zsh/interactive
+    fi
+fi
+
+. $HOME/.shell/interactive

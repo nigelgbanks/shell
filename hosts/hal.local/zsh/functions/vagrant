@@ -1,0 +1,4 @@
+#!/bin/zsh
+pushd $PROJECTS/dgi/servers/vagrant
+command vagrant "$@"
+popd
