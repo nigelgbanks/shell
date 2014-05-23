@@ -1,4 +1,4 @@
 #!/bin/zsh
-pushd $PROJECTS/dgi/servers/vagrant
+pushd $PROJECTS/dgi/servers/vagrant > /dev/null
 command vagrant "$@"
-popd
+popd > /dev/null

@@ -1,4 +1,11 @@
 #!/bin/zsh
-pushd $PROJECTS/dgi/servers/vsphere
-command vagrant "$@"
-popd
+pushd $PROJECTS/dgi/servers/vsphere > /dev/null
+ARGS=$@
+if [ $# -ge 1 ] && [ $1 = 'up' ]; then
+    if [ $# -ge 2 ] && [ $2 != '-h' ]; then
+        ARGS=("${@}_vm" '--provider' 'vsphere')
+    fi
+fi
+command vagrant $ARGS
+unset ARGS
+popd > /dev/null
