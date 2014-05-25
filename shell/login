@@ -1,3 +1,7 @@
+# For debugging purposes print the location of this file when sourced.
+# echo ${(%):-%N} # ZSH
+# echo $BASH_SOURCE # BASH
+
 # Put your environment variables here
 
 # Personal information

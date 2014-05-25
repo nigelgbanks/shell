@@ -1,1 +1,4 @@
+# For debugging purposes print the location of this file when sourced.
+# echo ${(%):-%N}
+
 . ~/.shell/env

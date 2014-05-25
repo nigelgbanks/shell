@@ -1,3 +1,7 @@
+# For debugging purposes print the location of this file when sourced.
+# echo ${(%):-%N} # ZSH
+# echo $BASH_SOURCE # BASH
+
 # We need to set $ENV so that if you use shell X as your login shell,
 # and then start "sh" as a non-login interactive shell the startup scripts will
 # correctly run.
