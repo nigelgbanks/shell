@@ -52,4 +52,6 @@ case $OS in
     ;;
 esac
 
+ssource_host shell/env
+
 ssource ~/.env_local

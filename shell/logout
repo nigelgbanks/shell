@@ -4,3 +4,5 @@ if [ "$SHLVL" = 1 ]; then
         clear_console -q
     fi
 fi
+
+ssource_host shell/logout

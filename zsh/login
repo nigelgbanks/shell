@@ -1,1 +1,2 @@
 . ~/.shell/login
+ssource_host zshell/login

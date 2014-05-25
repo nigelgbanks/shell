@@ -50,11 +50,8 @@ ssource $ZSH/oh-my-zsh.sh
 ssource $HOME/.zsh/alias
 
 # Load $HOST specific files
-if [ -d $HOME/shell/hosts/$HOST ]; then
-    ssource $HOME/shell/hosts/$HOST/zsh/alias
-    if [ -f $HOME/shell/hosts/$HOST/zsh/interactive ]; then
-        . $HOME/shell/hosts/$HOST/zsh/interactive
-    fi
-fi
+ssource_host zsh/alias
+ssource_host zsh/interactive
 
-. $HOME/.shell/interactive
+# Load shell independant files
+ssource $HOME/.shell/interactive

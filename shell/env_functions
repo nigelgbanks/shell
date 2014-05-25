@@ -51,3 +51,10 @@ ssource () {
         . "$1"
     fi
 }
+
+# Usage: ssource_host filename
+# Eg, to source a host file
+#     ssource_host zsh/interactive
+ssource_host () {
+    ssource $HOME/shell/hosts/$HOST/$1
+}

@@ -49,3 +49,5 @@ pathremove "" PATH
 if hash git 2>/dev/null; then
     cd $HOME/shell && git pull && cd $HOME
 fi
+
+ssource_host shell/login

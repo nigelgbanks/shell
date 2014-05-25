@@ -22,7 +22,7 @@ function create_link()
 
 # Create Symlinks to files and folders.
 echo "Creating symbolic links to top level files and folders"
-FILES=(bash bash_logout bash_profile bashrc ghc Profile sh shell zsh zshenv zshrc)
+FILES=(bash bash_logout bash_profile bashrc ghc Profile sh shell zlogin zsh zshenv zshrc)
 for file in "${FILES[@]}"
 do
     create_link $file
