@@ -58,3 +58,14 @@ ssource () {
 ssource_host () {
     ssource $HOME/shell/hosts/$HOST/$1
 }
+
+# Ussage: user_exists username
+# Eg, return true if the user exists false otherwise.
+#     if [ user_exists nbanks = true ]; then
+#        echo "nbanks is a user!"
+#     fi
+user_exists () {
+    local ret=false
+    getent passwd $1 >/dev/null 2>&1 && ret=true
+    echo $ret
+}

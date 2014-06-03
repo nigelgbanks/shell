@@ -72,3 +72,9 @@ while true; do
         * ) echo "Please answer yes or no.";;
     esac
 done
+
+
+function main() {
+    echo "main"
+}
+main

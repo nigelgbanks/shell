@@ -14,28 +14,11 @@ ZSH_CUSTOM=$HOME/.zsh/oh-my-zsh
 ZSH_THEME="nbanks"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
+DISABLE_UPDATE_PROMPT="true"
 DISABLE_AUTO_UPDATE="true"
 
-# Set the key mapping style to 'emacs' or 'vi'.
-zstyle ':omz:editor' keymap 'emacs'
-
-# Auto convert .... to ../..
-zstyle ':omz:editor' dot-expansion 'no'
-
-# Show completion menu when number of options is at least 2
-zstyle ':completion:*' menu select=2
-
-# Set case-sensitivity for completion, history lookup, etc.
-zstyle ':omz:*:*' case-sensitive 'yes'
-
-# Color output (auto set to 'no' on dumb terminals).
-zstyle ':omz:*:*' color 'yes'
-
-# Auto set the tab and window titles.
-zstyle ':omz:terminal' auto-title 'yes'
-
 # Set the plugins to load (see $OMZ/plugins/).
-zstyle ':omz:load' plugin 'archive' 'git' 'ssh-agent' 'github' 'vagrant' 'rvm'
+plugins=(archive git ssh-agent github vagrant rvm ruby cabal cp urltools osx rsync)
 
 # Turn on ssh agent forwarding.
 zstyle :omz:plugins:ssh-agent agent-forwarding on
