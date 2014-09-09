@@ -2,4 +2,11 @@
 # echo ${(%):-%N}
 
 . ~/.shell/login
+
+# Update the code
+if hash git 2>/dev/null; then
+    echo 'Update Oh My ZSH'
+    cd $HOME/.oh-my-zsh && git pull && cd $HOME
+fi
+
 ssource_host zshell/login

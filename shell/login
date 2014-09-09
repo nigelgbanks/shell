@@ -51,6 +51,7 @@ pathremove "" PATH
 
 # Update the code
 if hash git 2>/dev/null; then
+    echo 'Update Shell'
     cd $HOME/shell && git pull && cd $HOME
 fi
 
