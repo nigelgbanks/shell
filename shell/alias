@@ -16,8 +16,6 @@ if hash pbcopy 2>/dev/null; then
         alias pbcopy="ssh ${SSH_CLIENT%% *} pbcopy"
         alias pbpaste="ssh ${SSH_CLIENT%% *} pbpaste"
     fi
-    alias copy="pbcopy"
-    alias paste="pbpaste"
 fi
 # Git
 if hash git 2>/dev/null; then
