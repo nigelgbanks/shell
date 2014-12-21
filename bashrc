@@ -9,3 +9,5 @@
 
 . ~/.bash/env
 . ~/.bash/interactive
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

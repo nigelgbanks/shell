@@ -44,3 +44,5 @@ ssource_host zsh/interactive
 
 # Load shell independant files
 ssource $HOME/.shell/interactive
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
