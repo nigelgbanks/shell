@@ -1,0 +1,39 @@
+[core]
+	editor = emacs
+[merge]
+	tool = emerge
+[mergetool "emerge"]
+	prompt = false
+[alias]
+	dt = difftool
+	mt = mergetool
+	st = status
+	last = log -l HEAD
+	co = checkout
+	br = branch
+	ci = commit
+	re = remote
+	cp = cherry-pick
+	unstage = reset HEAD
+	uncommit = reset --soft HEAD^
+	aa = add --all :/
+	cached = diff --cached
+	amend = commit -a --amend
+	remote-branch = "!remote_branch() { git current | xargs -n 1 git push -u origin; }; remote_branch"
+	merged = "!merged() { git branch --merged $1 | grep -v '* '; }; merged"
+	merged-remote = "!merged() { current=`git current`; git branch -r --merged $1 | grep origin | grep -v -e 'HEAD\\|backup' | grep -v -e \"origin/$current$\" | sed -e 's/origin\\///g'; }; merged"
+	unmerged = branch --no-merged
+	delete-merged = "!delete_merged() { git delete-merged-local && git delete-merged-remote; }; delete_merged"
+	delete-merged-local = "!delete_merged_local() { git merged | xargs -n 1 git branch -d; }; delete_merged_local"
+	delete-merged-remote = "!delete_merged_remote() { git merged-remote | sed -e 's/^[ ]*/:/g' | xargs -n 1 git push origin && git remote prune origin; }; delete_merged_remote"
+	current = "!current() { current=`git branch | grep '* ' | tr -d '* '` && echo $current; }; current"
+	update = "!update() { current=`git current` && git pull upstream $current && git push origin $current; }; update"
+	self = "!self() { git remote add self $PWD; }; self"
+	set-url = "!set_url() { git remote set-url $1 git@github.com:${2-$1}/${PWD##*/}.git ; }; set_url"
+	set-upstream = "!set_upstream() { git remote set-url upstream git@github.com:${1-Islandora}/${PWD##*/}.git ; }; set_upstream"
+	add-remote = "!set_url() { git remote add $1 git@github.com:${2-$1}/${PWD##*/}.git ; }; set_url"
+	backup = "!backup() { current=`git current` && git push $1 self $current:backup && git push $1 origin $current:backup; }; backup"
+[hub]
+	protocol = ssh
+[push]
+	default = simple
