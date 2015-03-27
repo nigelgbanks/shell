@@ -4,3 +4,6 @@ pathprepend /opt/local/sbin PATH
 
 # Host specific
 pathprepend ~/Projects/shell/hosts/hal.local/bin
+
+# Use emacs client to edit files, assumes emacs is running as a daemon
+export EDITOR=emacsclient

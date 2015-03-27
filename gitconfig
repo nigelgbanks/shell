@@ -1,9 +1,9 @@
 [core]
-	editor = emacs
+	editor = emacsclient -t -a=\\\"\\\"
 [merge]
-	tool = emerge
-[mergetool "emerge"]
-	prompt = false
+	tool = ediff
+[mergetool "ediff"]
+	cmd = emacsclient -c -a \"\" --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
 [alias]
 	dt = difftool
 	mt = mergetool

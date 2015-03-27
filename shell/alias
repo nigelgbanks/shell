@@ -10,6 +10,7 @@ alias lla="ls -la"
 alias xa="xargs"
 alias t="tail -f"
 alias screen="screen -e^^^"
+alias ec="emacsclient"
 # Copy / Paste
 if hash pbcopy 2>/dev/null; then
     if [[ -n "$SSH_CLIENT" ]]; then
