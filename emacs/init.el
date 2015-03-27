@@ -34,3 +34,13 @@
     (load "darwin.el"))
 ;; Functions for use everywhere.
 (load "functions.el")
+;; Set up magit
+(add-to-list 'load-path "/path/to/git-modes")
+(add-to-list 'load-path "/path/to/magit")
+(eval-after-load 'info
+  '(progn (info-initialize)
+          (add-to-list 'Info-directory-list "/path/to/magit/")))
+(require 'magit)
+(autoload 'magit-status "magit" nil t)
+(global-set-key "\C-ci" 'magit-status)
+
