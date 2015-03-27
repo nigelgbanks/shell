@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!-- saved from url=(0061)http://blog.flowblok.id.au/2013-02/shell-startup-scripts.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Shell startup scripts — flowblok’s blog</title>
+    <meta name="author" content="Peter Ward">
+
+    <link href="http://blog.flowblok.id.au/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="flowblok’s blog Atom Feed">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="http://blog.flowblok.id.au/theme/bootstrap.min.css" rel="stylesheet">
+    <link href="http://blog.flowblok.id.au/theme/bootstrap.min.responsive.css" rel="stylesheet">
+    <link href="http://blog.flowblok.id.au/theme/local.css" rel="stylesheet">
+    <link href="http://blog.flowblok.id.au/theme/pygments.css" rel="stylesheet">
+
+<style type="text/css"></style><script type="text/javascript" async="" src="./documentation_files/embed.js"></script><script src="./documentation_files/alfie.f51946af45e0b561c60f768335c9eb79.js" async="" charset="UTF-8"></script></head>
+
+<body>
+
+<div class="navbar">
+    <div class="navbar-inner">
+    <div class="container">
+
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+             <span class="icon-bar"></span>
+         </a>
+
+        <a class="brand" href="http://blog.flowblok.id.au/">flowblok’s blog</a>
+
+        <div class="nav-collapse">
+        <ul class="nav">
+
+        </ul>
+        </div>
+
+    </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="content">
+    <div class="row">
+
+        <div class="span9">
+    <div class="article">
+        <div class="content-title">
+            <h1>Shell startup scripts</h1>
+Sun 17 February 2013
+
+by <a class="url fn" href="http://blog.flowblok.id.au/author/peter-ward.html">Peter Ward</a>
+ 
+
+
+        </div>
+
+        <div><p>If you’re a regular shell user, you’ve almost certainly got a
+<tt class="docutils literal">.bash_profile</tt> or <tt class="docutils literal">.bashrc</tt> script in your home folder,
+which usually contains various tweaks, such as setting environment variables
+(adding that directory to <tt class="docutils literal">$PATH</tt>), telling your shell to do clever things
+(like <tt class="docutils literal">set <span class="pre">-o</span> noclobber</tt>) and adding various aliases to commands
+(like <tt class="docutils literal">alias please=sudo</tt>).</p>
+<p>(If you’re really organised, you’ll have all your dotfiles in a repository
+somewhere so that you can keep your settings synchronised across all the
+machines you work on.)</p>
+<p>Anyhow, I suspect that few people know when things like <tt class="docutils literal">.bash_profile</tt> and
+<tt class="docutils literal">.bashrc</tt> actually get executed. When I started, I just followed people’s
+advice of putting stuff in <tt class="docutils literal">.bashrc</tt>, and then when it didn’t work, into
+<tt class="docutils literal">.bash_profile</tt>.
+I could stop here and describe just the bash startup process (as silly as it
+is), but there’s a complication in that I switched to zsh a few years ago
+(and haven’t looked back), but occasionally use bash on machines which don’t
+have zsh installed.</p>
+<p>In order to handle this nicely then, I need to be able to specify things which
+are specific to bash or zsh in their own files, and then to specify things
+which any POSIX-compliant shell (like aliases and environment variables) can
+understand in a common startup file.</p>
+<p>My solution to this problem is to define some new dotfile folders,
+one for each shell (<tt class="docutils literal">.bash/</tt>, <tt class="docutils literal">.zsh/</tt> and <tt class="docutils literal">.sh/</tt>), and one for the
+shell-independent files (<tt class="docutils literal">.shell/</tt>):</p>
+<div class="highlight"><pre>.bash/
+    env
+    interactive
+    login
+    logout
+.sh/
+    env
+    interactive
+    login
+.shell/
+    env
+    interactive
+    login
+    logout
+.zsh/
+    env
+    interactive
+    login
+    logout
+</pre></div>
+<p>“But!”, you say, <a class="footnote-reference" href="http://blog.flowblok.id.au/2013-02/shell-startup-scripts.html#since" id="id1">[1]</a> “what do the different files in here do?”
+Ah, well I’m glad you asked.
+There are two kinds of shells:</p>
+<ul class="simple">
+<li>[non-]interactive shells (you type into them / shell scripts)</li>
+<li>[non-]login shells (the shell run when you first login / subshells)</li>
+</ul>
+<p>All shells will first run <tt class="docutils literal">env</tt>, then login shells will run <tt class="docutils literal">login</tt>,
+then interactive shells will run <tt class="docutils literal">interactive</tt>.
+Once finished, login shells will run <tt class="docutils literal">logout</tt>.</p>
+<div class="section" id="where-to-put-stuff">
+<h2>Where to put stuff</h2>
+<p>It all depends on when it needs to be run.</p>
+<p>If it’s setting / modifying environment variables, it should go in <tt class="docutils literal">login</tt>.
+If it’s alias or a terminal-specific environment variable (e.g., GREP_COLOR),
+it should go in <tt class="docutils literal">interactive</tt>.
+In my <tt class="docutils literal">.shell/env</tt> file, I have my umask set, and also define some useful
+functions for modifying colon-separated path environment variables (like
+$PATH).</p>
+<p>Even if you don’t adopt anything else from my scheme, I’d recommend you take a
+look at the what my functions are doing which differs from something like
+<tt class="docutils literal">export <span class="pre">PATH=$PATH:/path/to/dir</span></tt>.</p>
+<p>That particular pattern is way too common, and is very dangerous if you
+consider the case when <tt class="docutils literal">$PATH</tt> (or whatever your variable is, like
+<tt class="docutils literal">$LD_LIBRARY_PATH</tt>) isn’t set.
+Then, the value will be <tt class="docutils literal">:/path/to/dir</tt>, which usually means both
+<tt class="docutils literal">/path/to/dir</tt> <em>and the current directory</em>, which is usually both unexpected
+behaviour and a security concern.</p>
+<p>With my implementation (see <tt class="docutils literal">.shell/env_functions</tt>), you can append, prepend
+and remove directories from any colon-separated environment variable, and when
+appending or prepending, you are guaranteed that directory will only then
+appear in that variable once.</p>
+<p>As a side note, I’m very disappointed in my <tt class="docutils literal">indirect_expand()</tt> function,
+so if you have a better solution, please let me know (or send me a pull request).</p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation</h2>
+<p>In order to implement this, you first need an understanding of which startup
+files are run in each case.
+Of course, this isn’t hard, since all the shells have the same, sensible
+system. Ahahaha, no.</p>
+<p>Fortunately, I’ve read the man pages for you, and drawn a pretty diagram.
+To read it, pick your shell, whether it's a login shell, whether it's
+interactive, and follow the same colour through the diagram.
+When the arrows split out to multiple files, it means that the shell will try
+to read each one in turn (working left to right), and will use the first one it
+can read.</p>
+<img alt="" src="./documentation_files/shell-startup.png">
+<p>An important point here is that if you have a non-login, non-interactive shell
+running a plain POSIX shell (dash, bash in sh compatibility mode), it <em>won’t
+fulfil</em> our contract in that it won’t read <tt class="docutils literal">.sh/env</tt>
+(and hence <tt class="docutils literal">.shell/env</tt>).</p>
+<p>The other special case which exists is Bash’s remote shell mode (which is
+rather warped), where it tries to detect if it’s running under ssh or rsh (I
+assume by looking at the process name of its parent), and if so, follows a
+different path, which is indicated on the diagram.</p>
+<p>Except that diagram shows what happens according to the man page, and not what
+happens when you actually try it out in real life.
+This second diagram more accurately captures the insanity of bash:</p>
+<img alt="" src="./documentation_files/shell-startup-actual.png">
+<p>See how remote interactive login shells read /etc/bash.bashrc, but normal
+interactive login shells don’t? Sigh.</p>
+<p>Finally, <a class="reference external" href="http://hg.flowblok.id.au/shell-startup">here’s a repository</a> containing my implementation and the graphviz
+files for the above diagram.
+If your POSIX-compliant shell isn’t listed here, or if I’ve made a horrible
+mistake (or just a tiny one), please send me a pull request or make a comment
+below, and I’ll update this post accordingly.</p>
+<table class="docutils footnote" frame="void" id="since" rules="none">
+<colgroup><col class="label"><col></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="http://blog.flowblok.id.au/2013-02/shell-startup-scripts.html#id1">[1]</a></td><td>and since I’m writing this, I can make you say whatever I want for the purposes of narrative.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+        <hr>
+
+        <h2>Comments</h2>
+<div id="disqus_thread"><iframe id="dsq-2" data-disqus-uid="2" allowtransparency="true" frameborder="0" scrolling="no" tabindex="0" title="Disqus" width="100%" src="./documentation_files/saved_resource.html" style="width: 100% !important; border: none !important; overflow: hidden !important; height: 1907px !important;" kwframeid="1" horizontalscrolling="no" verticalscrolling="no"></iframe></div>
+<script type="text/javascript">
+    var disqus_shortname = 'flowbloksblog'; 
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the &lt;a href="http://disqus.com/?ref_noscript"&gt;comments powered by Disqus.&lt;/a&gt;</noscript>
+    </div>
+        </div>
+
+        <div class="span3">
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header">
+                Site
+                </li>
+
+                <li><a href="http://blog.flowblok.id.au/archives.html">Archives</a>
+                </li><li><a href="http://blog.flowblok.id.au/tags.html">Tags</a>
+            </li></ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header">
+                Categories
+                </li>
+
+                <li><a href="http://blog.flowblok.id.au/category/random.html">random</a></li>
+                <li><a href="http://blog.flowblok.id.au/category/school.html">school</a></li>
+                <li><a href="http://blog.flowblok.id.au/category/software.html">software</a></li>
+                <li><a href="http://blog.flowblok.id.au/category/university.html">university</a></li>
+            </ul>
+            </div>
+
+
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header">
+                Links
+                </li>
+
+                <li><a href="http://hg.flowblok.id.au/">code</a></li>
+                <li><a href="http://flickr.com/photos/flowblok">photos</a></li>
+            </ul>
+            </div>
+
+
+            <div class="social">
+            <div class="well" style="padding: 8px 0; background-color: #FBFBFB;">
+            <ul class="nav nav-list">
+                <li class="nav-header">
+                Social
+                </li>
+
+                <li><a href="https://twitter.com/flowblok">twitter</a></li>
+                <li><a href="https://facebook.com/flowblok">facebook</a></li>
+            </ul>
+            </div>
+            </div>
+
+        </div>     </div>     </div> 
+<footer>
+<br>
+<p><a href="http://blog.flowblok.id.au/">flowblok’s blog</a> © Peter Ward 2012</p>
+</footer>
+
+</div> <!-- /container -->
+<script src="./documentation_files/jquery.min.js"></script>
+<script src="./documentation_files/bootstrap-collapse.js"></script>
+
+<div id="spreed-overlay" style="position: absolute;"><img src="chrome-extension://ipikiaejjblmdopojhpejjmbedhlibno/close_icon.png" style="float: left; margin-bottom: 3px; position: absolute; left: 0px; top: 0px; cursor: pointer;"><a style="cursor: pointer;">2 min to Spreed</a></div></body></html>
