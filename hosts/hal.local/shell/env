@@ -1,3 +1,6 @@
 # Mac Ports
 pathprepend /opt/local/bin PATH
 pathprepend /opt/local/sbin PATH
+
+# Host specific
+pathprepend ~/Projects/shell/hosts/hal.local/bin

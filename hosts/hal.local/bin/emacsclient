@@ -1,0 +1,3 @@
+#!/bin/sh
+# Assuming the emacs daemon is running in the background.
+/Applications/Emacs.app/Contents/MacOS/bin/emacsclient "$@"
