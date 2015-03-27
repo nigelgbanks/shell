@@ -1,2 +1,3 @@
-# Path Settings
-pathprepend $HOME/Library/Haskell/bin PATH
+# Mac Ports
+pathprepend /opt/local/bin PATH
+pathprepend /opt/local/sbin PATH
